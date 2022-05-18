@@ -34,10 +34,8 @@ const winningConditions = [
 const winningMessage = () => `Player ${currentPlayer} has won!`;
 const drawMessage = () => `Game ended in a draw!`;
 const currentPlayerTurn = () => `It's ${currentPlayer}'s turn`;
-
 /**
- * set the initial message to let the players know whose turn it is
- * @type {string}
+ * set the initial message to let the players know whose turn it is.
  */
 statusDisplay.innerHTML = currentPlayerTurn();
 
@@ -61,12 +59,15 @@ function handleResultValidation() {
 
     for (let i = 0; i <= 7; i++) {
         const winCondition = winningConditions[i];
+
         let a = gameState[winCondition[0]];
         let b = gameState[winCondition[1]];
         let c = gameState[winCondition[2]];
+
         if (a === '' || b === '' || c === '') {
             continue;
         }
+
         if (a === b && b === c) {
             roundWon = true;
             break
@@ -87,6 +88,10 @@ function handleResultValidation() {
         return;
     }
 
+    /**
+     * If we get here we know that the no one has won the game yet,
+     * and that there are still moves to be played, so we continue by changing
+     */
     handlePlayerChange();
 }
 
@@ -100,11 +105,11 @@ function handleCellClick(clickedCellEvent) {
     const clickedCellIndex = parseInt(clickedCell.getAttribute('data-cell-index')); //grab the 'data-cell-index' attribute from the clicked cell to identify where that cell is in our grid
 
     if (gameState[clickedCellIndex] !== "" || !gameActive) {
-        console.log(`RETURN ${clickedCellIndex}`);
-        console.log(`RETURN ${gameState}`);
         return;
     }
-
+    /**
+     * If everything is in order we will proceed with the game flow
+     */
     handleCellPlayed(clickedCell, clickedCellIndex);
     handleResultValidation();
 }
@@ -120,11 +125,8 @@ function handleRestartGame() {
     document.querySelectorAll('.cell').forEach(cell => cell.innerHTML = "");
 }
 
-console.log(document.querySelectorAll('.cell'))
-
 /**
  * add our event listeners to the actual game cells, as well as our restart button
- *
  * */
 
 document.querySelectorAll('.cell').forEach(cell => cell.addEventListener('click', handleCellClick));
